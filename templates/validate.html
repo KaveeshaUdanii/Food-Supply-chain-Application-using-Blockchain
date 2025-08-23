@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="card">
+    <h2>Blockchain Validation</h2>
+    {% if valid %}
+      <p class="good">Chain is valid. Length: {{ length }}</p>
+    {% else %}
+      <p class="bad">Chain is NOT valid! Please investigate.</p>
+    {% endif %}
+  </div>
+{% endblock %}

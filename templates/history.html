@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="card">
+    <h2>History: {{ batch_id }}</h2>
+    <table class="table">
+      <thead><tr><th>Block</th><th>Type</th><th>Timestamp</th><th>Details</th></tr></thead>
+      <tbody>
+        {% for h in history %}
+        <tr>
+          <td>{{ h.block_index }}</td>
+          <td>{{ h.type or h.get('tx_type', '') }}</td>
+          <td>{{ h.timestamp | int }}</td>
+          <td>
+            <pre style="white-space:pre-wrap">{{ h | tojson }}</pre>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">No history for this batch.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

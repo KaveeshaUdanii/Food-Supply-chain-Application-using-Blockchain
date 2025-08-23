@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="card">
+    <h2>Transfer: {{ product.name }} ({{ product.batch_id }})</h2>
+    <form method="post">
+      <label>New Owner
+        <select name="new_owner" required>
+          {% for u in users %}
+            <option value="{{ u.username }}">{{ u.username }} ({{ u.role }})</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Temperature<input name="temperature" type="number" step="0.1"></label>
+      <label>Humidity<input name="humidity" type="number" step="0.1"></label>
+      <label>Notes<textarea name="notes"></textarea></label>
+      <div class="actions">
+        <button class="btn" type="submit">Transfer</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <section class="hero">
+    <h1>Traceable, transparent food supply chain</h1>
+    <p>Sign in or create an account to begin tracking batches.</p>
+    <div class="cta">
+      <a class="btn" href="{{ url_for('signup') }}">Create Account</a>
+      <a class="btn outline" href="{{ url_for('login') }}">Login</a>
+    </div>
+  </section>
+{% endblock %}

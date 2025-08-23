@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="grid">
+    <div class="card">
+      <h3>Welcome, {{ current_user.username }}</h3>
+      <p>Role: {{ current_user.role }}</p>
+      <p>Blocks: {{ total_blocks }} • Transactions: {{ total_transactions }}</p>
+      <a class="btn" href="{{ url_for('register_product') }}">Register New Product</a>
+    </div>
+    <div class="card">
+      <h3>Your Products</h3>
+      <table class="table">
+        <thead><tr><th>Batch ID</th><th>Name</th><th>Origin</th><th>Owner</th><th>Actions</th></tr></thead>
+        <tbody>
+          {% for p in products %}
+          <tr>
+            <td>{{ p.batch_id }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.origin }}</td>
+            <td>{{ p.owner_id }}</td>
+            <td>
+              <a href="{{ url_for('history', batch_id=p.batch_id) }}">History</a>
+              <a href="{{ url_for('transfer', product_id=p.id) }}">Transfer</a>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5">No products yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

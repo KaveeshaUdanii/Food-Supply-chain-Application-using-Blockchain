@@ -23,7 +23,7 @@ import plotly
 import plotly.graph_objs as go
 from collections import Counter
 
-from collections import Counter
+from collections import Counter, defaultdict
 import json
 from flask import render_template
 from flask_login import current_user
@@ -227,26 +227,23 @@ def create_app():
 
 
     #-------------stats-------------------#
+    
     @app.route('/analytics')
     def analytics():
         products = Product.query.all()
 
-        # Count products per owner
+        # Owner counts
         owner_counts = Counter(p.owner.username for p in products)
 
-        # Count temperature/humidity violations from product_metadata
+        # Temp / humidity violations
         temp_violations = 0
         humidity_violations = 0
-        temp_list = []
-        hum_list = []
         for p in products:
             if p.product_metadata:
                 try:
                     meta = json.loads(p.product_metadata)
                     temp = float(meta.get('temperature', 0))
                     hum = float(meta.get('humidity', 0))
-                    temp_list.append(temp)
-                    hum_list.append(hum)
                     if temp > 25:
                         temp_violations += 1
                     if hum > 60:
@@ -254,18 +251,14 @@ def create_app():
                 except Exception:
                     continue
 
-        # Bar chart: Products per owner
-        bar_data = {"labels": list(owner_counts.keys()), "values": list(owner_counts.values())}
-
-        # Pie chart: Percentage of products by status
+        # Product status counts
         status_counts = Counter(p.status for p in products)
-        pie_data = {"labels": list(status_counts.keys()), "values": list(status_counts.values())}
 
-        # Line chart: Temperature over time (using timestamps)
-        line_data = {
-            "x": [p.timestamp.strftime('%Y-%m-%d') for p in products if p.product_metadata],
-            "y": temp_list
-        }
+        # Line chart: products added over time
+        date_counts = defaultdict(int)
+        for p in products:
+            date_str = p.timestamp.strftime('%Y-%m-%d')
+            date_counts[date_str] += 1
 
         return render_template(
             'analytics.html',
@@ -273,9 +266,12 @@ def create_app():
             user_products=len([p for p in products if p.owner_id == current_user.id]),
             temp_violations=temp_violations,
             humidity_violations=humidity_violations,
-            bar_json=bar_data,
-            pie_json=pie_data,
-            line_json=line_data
+            status_counts=status_counts,
+            bar_json={"labels": list(owner_counts.keys()), "values": list(owner_counts.values())},
+            pie_json={"labels": ["Temp Violations", "Humidity Violations", "Safe Products"],
+                    "values": [temp_violations, humidity_violations, len(products) - temp_violations - humidity_violations]},
+            line_json={"dates": list(date_counts.keys()), "counts": list(date_counts.values())},
+            status_json={"labels": list(status_counts.keys()), "values": list(status_counts.values())}
         )
 
 

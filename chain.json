@@ -227,5 +227,48 @@
     "previous_hash": "000879675a4ff067eca044a0d76e6980064cbe65db13444538d64f896acf2d2b",
     "nonce": 1403,
     "hash": "0008de76a7be9d2caf03654e0bf978c9e598e44bc1742d0ebe88f6859d4af28c"
+  },
+  {
+    "index": 11,
+    "timestamp": 1756048476.6412318,
+    "transactions": [
+      {
+        "type": "create",
+        "batch_id": "274e35f2",
+        "product_name": "grapes",
+        "origin": "Farm 1",
+        "owner": "Famer2",
+        "timestamp": 1756028676.641122,
+        "metadata": {
+          "temperature": 24.0,
+          "humidity": 23.0,
+          "notes": "200kg"
+        }
+      }
+    ],
+    "previous_hash": "0008de76a7be9d2caf03654e0bf978c9e598e44bc1742d0ebe88f6859d4af28c",
+    "nonce": 13613,
+    "hash": "000e4afe89655c5860921c37464d35cf967de751430210d4380cf57461bdbd6e"
+  },
+  {
+    "index": 12,
+    "timestamp": 1756048742.9271142,
+    "transactions": [
+      {
+        "type": "transfer",
+        "batch_id": "274e35f2",
+        "from": "Famer2",
+        "to": "Distributer02",
+        "timestamp": 1756028942.927099,
+        "metadata": {
+          "temperature": 23.0,
+          "humidity": 26.0,
+          "notes": "2000kg"
+        }
+      }
+    ],
+    "previous_hash": "000e4afe89655c5860921c37464d35cf967de751430210d4380cf57461bdbd6e",
+    "nonce": 3040,
+    "hash": "00098246ead491dccdef421702201d3ba6fae28a96351d070b9f39f38a8ee2c5"
   }
 ]

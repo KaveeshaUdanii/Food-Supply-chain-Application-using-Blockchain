@@ -1098,3 +1098,29 @@ input:focus, textarea:focus, select:focus {
   -webkit-backdrop-filter: blur(16px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+
+/*-----------------------------------------History page-------------------------------------*/
+/* ================= Page Background ================= */
+.history-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: url('/static/images/hs.jpg') no-repeat center center/cover;
+  position: relative;
+  z-index: 0; /* keep background untouched */
+}
+
+/* Overlay without blur */
+.history-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.12); /* just a tint */
+  z-index: 0;
+  pointer-events: none; /* don't interfere */
+}

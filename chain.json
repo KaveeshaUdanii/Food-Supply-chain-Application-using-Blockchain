@@ -183,5 +183,49 @@
     "previous_hash": "0000a0eb37f5b423764dda12a1f064195636ba24dc334faba2c2bab510540ac7",
     "nonce": 747,
     "hash": "0000d35f9abc5ab03906218dcd9b074c794cebae57d25f242c3d3ac7e70481d2"
+  },
+  {
+    "index": 9,
+    "timestamp": 1756012359.736895,
+    "transactions": [
+      {
+        "type": "create",
+        "batch_id": "464c9f21",
+        "product_name": "milkshake",
+        "origin": "outlet1",
+        "owner": "Retailer01",
+        "timestamp": 1755992559.736885,
+        "metadata": {
+          "temperature": 20.0,
+          "humidity": 23.0,
+          "notes": "sold"
+        }
+      }
+    ],
+    "previous_hash": "0000d35f9abc5ab03906218dcd9b074c794cebae57d25f242c3d3ac7e70481d2",
+    "nonce": 4372,
+    "hash": "000879675a4ff067eca044a0d76e6980064cbe65db13444538d64f896acf2d2b"
+  },
+  {
+    "index": 10,
+    "timestamp": 1756013550.713443,
+    "transactions": [
+      {
+        "type": "create",
+        "batch_id": "85bee338",
+        "product_name": "karrot",
+        "origin": "Farm 1",
+        "owner": "Famer2",
+        "timestamp": 1755993750.713433,
+        "metadata": {
+          "temperature": 24.0,
+          "humidity": 23.0,
+          "notes": "20kg"
+        }
+      }
+    ],
+    "previous_hash": "000879675a4ff067eca044a0d76e6980064cbe65db13444538d64f896acf2d2b",
+    "nonce": 1403,
+    "hash": "0008de76a7be9d2caf03654e0bf978c9e598e44bc1742d0ebe88f6859d4af28c"
   }
 ]

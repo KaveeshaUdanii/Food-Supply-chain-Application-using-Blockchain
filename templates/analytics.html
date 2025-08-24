@@ -3,6 +3,7 @@
 <section class="hero">
   <div class="container">
     <h2>Analytics & Stats</h2>
+
     <div class="grid" style="margin-top:24px;">
       <div class="card">
         <h3>Total Products</h3>
@@ -22,17 +23,27 @@
       </div>
     </div>
 
-    <div class="card" style="margin-top:24px;">
-      <h3>Products by Owner</h3>
-      <div id="bar-chart"></div>
+    <!-- Charts -->
+    <div class="grid" style="margin-top:24px; gap:24px;">
+      <div class="card">
+        <h3>Products by Owner</h3>
+        <div id="bar-chart" data-json='{{ bar_json | tojson | safe }}'></div>
+      </div>
+
+      <div class="card">
+        <h3>Products by Status</h3>
+        <div id="pie-chart" data-json='{{ pie_json | tojson | safe }}'></div>
+      </div>
+
+      <div class="card">
+        <h3>Temperature Over Time</h3>
+        <div id="line-chart" data-json='{{ line_json | tojson | safe }}'></div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- Plotly JS -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script>
-    var barData = JSON.parse('{{ bar_json | tojson | safe }}');
-    Plotly.newPlot('bar-chart', barData, {margin: {t:30}});
-</script>
+<script src="{{ url_for('static', filename='js/analytics.js') }}"></script>
 {% endblock %}

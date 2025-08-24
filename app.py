@@ -21,8 +21,13 @@ import json
 
 import plotly
 import plotly.graph_objs as go
+from collections import Counter
 
-
+from collections import Counter
+import json
+from flask import render_template
+from flask_login import current_user
+from models import Product 
 
 
 BASE_DIR = Path(__file__).parent.resolve()
@@ -221,41 +226,58 @@ def create_app():
         return render_template("history.html", history=history, batch_id=batch_id)
 
 
-    #---visualiza Analytics 
-    @app.route("/analytics")
-    @login_required
+    #-------------stats-------------------#
+    @app.route('/analytics')
     def analytics():
-        # Total products in system
-        total_products = Product.query.count()
+        products = Product.query.all()
 
-        # Products owned by current user
-        user_products = Product.query.filter_by(owner_id=current_user.id).count()
+        # Count products per owner
+        owner_counts = Counter(p.owner.username for p in products)
 
-        # Quality violations (example thresholds)
-        all_products = Product.query.all()
-        temp_violations = sum(1 for p in all_products if json.loads(p.product_metadata).get('temperature', 0) > 30)
-        humidity_violations = sum(1 for p in all_products if json.loads(p.product_metadata).get('humidity', 0) > 70)
+        # Count temperature/humidity violations from product_metadata
+        temp_violations = 0
+        humidity_violations = 0
+        temp_list = []
+        hum_list = []
+        for p in products:
+            if p.product_metadata:
+                try:
+                    meta = json.loads(p.product_metadata)
+                    temp = float(meta.get('temperature', 0))
+                    hum = float(meta.get('humidity', 0))
+                    temp_list.append(temp)
+                    hum_list.append(hum)
+                    if temp > 25:
+                        temp_violations += 1
+                    if hum > 60:
+                        humidity_violations += 1
+                except Exception:
+                    continue
 
-        # Products per owner for bar chart
-        users = User.query.all()
-        owners = [u.username for u in users]
-        product_counts = [Product.query.filter_by(owner_id=u.id).count() for u in users]
+        # Bar chart: Products per owner
+        bar_data = {"labels": list(owner_counts.keys()), "values": list(owner_counts.values())}
 
-        # Convert to JSON for Plotly
-        bar = go.Bar(x=owners, y=product_counts, marker_color='#016A70')
-        bar_json = json.dumps([bar], cls=plotly.utils.PlotlyJSONEncoder)
+        # Pie chart: Percentage of products by status
+        status_counts = Counter(p.status for p in products)
+        pie_data = {"labels": list(status_counts.keys()), "values": list(status_counts.values())}
+
+        # Line chart: Temperature over time (using timestamps)
+        line_data = {
+            "x": [p.timestamp.strftime('%Y-%m-%d') for p in products if p.product_metadata],
+            "y": temp_list
+        }
 
         return render_template(
-            "analytics.html",
-            total_products=total_products,
-            user_products=user_products,
+            'analytics.html',
+            total_products=len(products),
+            user_products=len([p for p in products if p.owner_id == current_user.id]),
             temp_violations=temp_violations,
             humidity_violations=humidity_violations,
-            bar_json=bar_json
+            bar_json=bar_data,
+            pie_json=pie_data,
+            line_json=line_data
         )
 
-
-    
 
     # --- Validate chain ---
     @app.route("/chain/validate")

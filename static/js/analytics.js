@@ -1,39 +1,80 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const colors = ['#016A70', '#FFFFDD', '#D2DE32', '#A2C579'];
+function renderChart(id, data, type, layoutOverrides={}) {
+    let trace, layout;
 
-    // ====== BAR CHART ======
-    const barEl = document.getElementById('bar-chart');
-    if (barEl) {
-        const barData = JSON.parse(barEl.dataset.json);
-        const trace = { x: barData.labels, y: barData.values, type:'bar', marker:{color:colors[0]} };
-        const layout = { margin:{t:40,b:40,l:40,r:40}, plot_bgcolor:'rgba(255,255,255,0.1)', paper_bgcolor:'rgba(255,255,255,0.1)', font:{color:colors[0]}, yaxis:{title:'Products'}, xaxis:{title:'Owner'} };
-        Plotly.newPlot(barEl,[trace],layout,{responsive:true});
+    switch(type) {
+        case "line":
+            trace = [
+                { x: data.timestamps, y: data.temperature, name: "Temp (°C)", mode: "lines+markers" },
+                { x: data.timestamps, y: data.humidity, name: "Humidity (%)", mode: "lines+markers" }
+            ];
+            layout = { colorway: ["#016A70","#D2DE32"], ...layoutOverrides };
+            break;
+
+        case "bar":
+            trace = [{ x: data.owners, y: data.violations || data.counts, type: "bar" }];
+            layout = { colorway: ["#A2C579"], ...layoutOverrides };
+            break;
+
+        case "pie":
+            trace = [{ labels: data.labels, values: data.values, type: "pie" }];
+            layout = { colorway: ["#016A70","#FFFFDD","#D2DE32"], ...layoutOverrides };
+            break;
+
+        case "scatter":
+            trace = [{ x: data.distance, y: data.time, mode: "markers" }];
+            layout = { xaxis:{title:"Distance (km)"}, yaxis:{title:"Time (h)"}, ...layoutOverrides };
+            break;
+
+        case "heatmap":
+            trace = [{ z: data.counts, x: data.locations, y:["Violations"], type:"heatmap", colorscale:[["0","#FFFFDD"],["1","#016A70"]] }];
+            layout = { ...layoutOverrides };
+            break;
+
+        case "stacked":
+            trace = [{ x: data.statuses, y: data.counts, type:"bar" }];
+            layout = { barmode:"stack", colorway:["#016A70","#D2DE32","#A2C579"], ...layoutOverrides };
+            break;
+
+        case "timeline":
+            trace = [{ x: data.batches, y: data.durations, type:"bar" }];
+            layout = { xaxis:{title:"Batch"}, yaxis:{title:"Duration (days)"}, ...layoutOverrides };
+            break;
+
+        case "network":
+            // Placeholder (Plotly doesn't directly support networks) → show as scatter
+            trace = [{
+                x: [1,2,3,4],
+                y: [1,3,2,4],
+                text: data.nodes,
+                mode: "markers+text",
+                textposition: "top center"
+            }];
+            layout = { ...layoutOverrides };
+            break;
     }
 
-    // ====== PIE CHART ======
-    const pieEl = document.getElementById('pie-chart');
-    if (pieEl) {
-        const pieData = JSON.parse(pieEl.dataset.json);
-        const trace = { labels: pieData.labels, values: pieData.values, type:'pie', marker:{colors:colors}, hole:0.3 };
-        const layout = { margin:{t:40}, font:{color:colors[0]}, paper_bgcolor:'rgba(255,255,255,0.1)' };
-        Plotly.newPlot(pieEl,[trace],layout,{responsive:true});
-    }
+    Plotly.newPlot(id, trace, layout, {responsive:true});
+}
 
-    // ====== LINE CHART ======
-    const lineEl = document.getElementById('line-chart');
-    if (lineEl) {
-        const lineData = JSON.parse(lineEl.dataset.json);
-        const trace = { x: lineData.dates, y: lineData.counts, type:'scatter', mode:'lines+markers', line:{color:colors[2], width:3}, marker:{size:6,color:colors[2]} };
-        const layout = { margin:{t:40,b:40,l:40,r:40}, plot_bgcolor:'rgba(255,255,255,0.1)', paper_bgcolor:'rgba(255,255,255,0.1)', font:{color:colors[0]}, yaxis:{title:'Products'}, xaxis:{title:'Date'} };
-        Plotly.newPlot(lineEl,[trace],layout,{responsive:true});
-    }
+// Render all charts
+document.addEventListener("DOMContentLoaded", function() {
+    let charts = [
+        ["safety-line-chart","line"],
+        ["violations-bar-chart","bar"],
+        ["heatmap-chart","heatmap"],
+        ["fraud-pie-chart","pie"],
+        ["fraud-scatter-chart","scatter"],
+        ["fraud-network-chart","network"],
+        ["performance-bar-chart","bar"],
+        ["performance-stacked-chart","stacked"],
+        ["performance-timeline-chart","timeline"]
+    ];
 
-    // ====== STATUS CHART (Donut) ======
-    const statusEl = document.getElementById('status-chart');
-    if (statusEl) {
-        const statusData = JSON.parse(statusEl.dataset.json);
-        const trace = { labels: statusData.labels, values: statusData.values, type:'pie', marker:{colors:colors}, hole:0.5 };
-        const layout = { margin:{t:40}, font:{color:colors[0]}, paper_bgcolor:'rgba(255,255,255,0.1)' };
-        Plotly.newPlot(statusEl,[trace],layout,{responsive:true});
-    }
+    charts.forEach(([id, type]) => {
+        let el = document.getElementById(id);
+        if (el) {
+            let data = JSON.parse(el.dataset.json);
+            renderChart(id, data, type);
+        }
+    });
 });

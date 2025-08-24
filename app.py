@@ -30,6 +30,13 @@ from flask_login import current_user
 from models import Product 
 
 
+from collections import defaultdict
+import json, random
+from datetime import datetime
+from models import Product, db
+
+
+
 BASE_DIR = Path(__file__).parent.resolve()
 DB_PATH = BASE_DIR / "app.db"
 
@@ -227,52 +234,121 @@ def create_app():
 
 
     #-------------stats-------------------#
-    
-    @app.route('/analytics')
+    @app.route("/analytics")
     def analytics():
+        # --- Base stats ---
+        total_products = Product.query.count()
+        user_products = Product.query.filter_by(owner_id=current_user.id).count()
+        
+        # Temperature & Humidity Violations
         products = Product.query.all()
-
-        # Owner counts
-        owner_counts = Counter(p.owner.username for p in products)
-
-        # Temp / humidity violations
         temp_violations = 0
         humidity_violations = 0
+        safety_data = []
+        violations_per_owner = defaultdict(int)
+        risky_locations = defaultdict(int)
+
         for p in products:
             if p.product_metadata:
-                try:
-                    meta = json.loads(p.product_metadata)
-                    temp = float(meta.get('temperature', 0))
-                    hum = float(meta.get('humidity', 0))
-                    if temp > 25:
-                        temp_violations += 1
-                    if hum > 60:
-                        humidity_violations += 1
-                except Exception:
-                    continue
+                meta = json.loads(p.product_metadata)
+                temp = meta.get("temperature", 0)
+                hum = meta.get("humidity", 0)
+                notes = meta.get("notes", "")
+                ts = p.timestamp.strftime("%Y-%m-%d %H:%M")
 
-        # Product status counts
-        status_counts = Counter(p.status for p in products)
+                # Collect line data
+                safety_data.append({
+                    "timestamp": ts,
+                    "temperature": temp,
+                    "humidity": hum,
+                    "owner": p.current_owner
+                })
 
-        # Line chart: products added over time
-        date_counts = defaultdict(int)
+                # Violations
+                if temp > 25:
+                    temp_violations += 1
+                    violations_per_owner[p.current_owner] += 1
+                    risky_locations[p.origin] += 1
+                if hum > 60:
+                    humidity_violations += 1
+                    violations_per_owner[p.current_owner] += 1
+                    risky_locations[p.origin] += 1
+
+        # --- Food Safety Charts ---
+        safety_line_json = {
+            "timestamps": [d["timestamp"] for d in safety_data],
+            "temperature": [d["temperature"] for d in safety_data],
+            "humidity": [d["humidity"] for d in safety_data],
+        }
+
+        violations_bar_json = {
+            "owners": list(violations_per_owner.keys()),
+            "violations": list(violations_per_owner.values())
+        }
+
+        heatmap_json = {
+            "locations": list(risky_locations.keys()),
+            "counts": list(risky_locations.values())
+        }
+
+        # --- Fraud Detection (Simulated) ---
+        fraud_pie_json = {
+            "labels": ["Normal Transfers", "Suspicious Transfers"],
+            "values": [len(products) - 3, 3]
+        }
+
+        fraud_scatter_json = {
+            "distance": [random.randint(50, 500) for _ in range(20)],
+            "time": [random.randint(1, 24) for _ in range(20)]
+        }
+
+        fraud_network_json = {
+            "nodes": ["Farmer1", "Distributor1", "Retailer1", "Retailer2"],
+            "links": [("Farmer1","Distributor1"), ("Distributor1","Retailer1"), ("Retailer1","Distributor1")]
+        }
+
+        # --- Supply Chain Performance ---
+        owner_counts = defaultdict(int)
+        status_counts = defaultdict(int)
+        transport_durations = []
+
         for p in products:
-            date_str = p.timestamp.strftime('%Y-%m-%d')
-            date_counts[date_str] += 1
+            owner_counts[p.current_owner] += 1
+            status_counts[p.status] += 1
+            transport_durations.append(random.randint(1, 10))
 
-        return render_template(
-            'analytics.html',
-            total_products=len(products),
-            user_products=len([p for p in products if p.owner_id == current_user.id]),
-            temp_violations=temp_violations,
-            humidity_violations=humidity_violations,
-            status_counts=status_counts,
-            bar_json={"labels": list(owner_counts.keys()), "values": list(owner_counts.values())},
-            pie_json={"labels": ["Temp Violations", "Humidity Violations", "Safe Products"],
-                    "values": [temp_violations, humidity_violations, len(products) - temp_violations - humidity_violations]},
-            line_json={"dates": list(date_counts.keys()), "counts": list(date_counts.values())},
-            status_json={"labels": list(status_counts.keys()), "values": list(status_counts.values())}
-        )
+        performance_bar_json = {
+            "owners": list(owner_counts.keys()),
+            "counts": list(owner_counts.values())
+        }
+
+        performance_stacked_json = {
+            "statuses": list(status_counts.keys()),
+            "counts": list(status_counts.values())
+        }
+
+        performance_timeline_json = {
+            "batches": [p.batch_id for p in products],
+            "durations": transport_durations
+        }
+
+        return render_template("analytics.html",
+                            total_products=total_products,
+                            user_products=user_products,
+                            temp_violations=temp_violations,
+                            humidity_violations=humidity_violations,
+                            # Food Safety
+                            safety_line_json=safety_line_json,
+                            violations_bar_json=violations_bar_json,
+                            heatmap_json=heatmap_json,
+                            # Fraud Detection
+                            fraud_pie_json=fraud_pie_json,
+                            fraud_scatter_json=fraud_scatter_json,
+                            fraud_network_json=fraud_network_json,
+                            # Supply Chain
+                            performance_bar_json=performance_bar_json,
+                            performance_stacked_json=performance_stacked_json,
+                            performance_timeline_json=performance_timeline_json)
 
 
     # --- Validate chain ---

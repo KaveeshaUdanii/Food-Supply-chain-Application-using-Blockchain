@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block content %}
 <section class="hero">
   <div class="dashboard-container">
@@ -26,21 +25,54 @@
       </div>
     </div>
 
-    <!-- Charts -->
-    <div class="grid charts-grid" style="margin-top:24px; gap:24px;">
+    <!-- Food Safety -->
+    <h3 style="margin-top:32px; color:#016A70;">Food Safety</h3>
+    <div class="grid charts-grid" style="margin-top:16px; gap:24px;">
       <div class="card">
-        <h3>Products by Owner</h3>
-        <div id="bar-chart" data-json='{{ bar_json | tojson | safe }}'></div>
+        <h4>Temperature & Humidity Over Time</h4>
+        <div id="safety-line-chart" data-json='{{ safety_line_json | tojson | safe }}'></div>
       </div>
-
       <div class="card">
-        <h3>Products by Status</h3>
-        <div id="pie-chart" data-json='{{ pie_json | tojson | safe }}'></div>
+        <h4>Violations per Owner</h4>
+        <div id="violations-bar-chart" data-json='{{ violations_bar_json | tojson | safe }}'></div>
       </div>
-
       <div class="card">
-        <h3>Temperature Over Time</h3>
-        <div id="line-chart" data-json='{{ line_json | tojson | safe }}'></div>
+        <h4>Risky Locations Heatmap</h4>
+        <div id="heatmap-chart" data-json='{{ heatmap_json | tojson | safe }}'></div>
+      </div>
+    </div>
+
+    <!-- Fraud Detection -->
+    <h3 style="margin-top:32px; color:#016A70;">Fraud Detection</h3>
+    <div class="grid charts-grid" style="margin-top:16px; gap:24px;">
+      <div class="card">
+        <h4>Unusual Ownership Changes</h4>
+        <div id="fraud-pie-chart" data-json='{{ fraud_pie_json | tojson | safe }}'></div>
+      </div>
+      <div class="card">
+        <h4>Transport Time vs Distance</h4>
+        <div id="fraud-scatter-chart" data-json='{{ fraud_scatter_json | tojson | safe }}'></div>
+      </div>
+      <div class="card">
+        <h4>Ownership Network</h4>
+        <div id="fraud-network-chart" data-json='{{ fraud_network_json | tojson | safe }}'></div>
+      </div>
+    </div>
+
+    <!-- Supply Chain Performance -->
+    <h3 style="margin-top:32px; color:#016A70;">Supply Chain Performance</h3>
+    <div class="grid charts-grid" style="margin-top:16px; gap:24px;">
+      <div class="card">
+        <h4>Products per Stakeholder</h4>
+        <div id="performance-bar-chart" data-json='{{ performance_bar_json | tojson | safe }}'></div>
+      </div>
+      <div class="card">
+        <h4>Product Status Distribution</h4>
+        <div id="performance-stacked-chart" data-json='{{ performance_stacked_json | tojson | safe }}'></div>
+      </div>
+      <div class="card">
+        <h4>Average Transport Duration</h4>
+        <div id="performance-timeline-chart" data-json='{{ performance_timeline_json | tojson | safe }}'></div>
       </div>
     </div>
 
@@ -51,4 +83,3 @@
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="{{ url_for('static', filename='js/analytics.js') }}"></script>
 {% endblock %}
-

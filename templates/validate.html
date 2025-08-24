@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="validation-page">
-  <h2>Blockchain Validation</h2>
+<section class="hero">
+  <div class="dashboard-container">
+    <h2 style="color:#D2DE32; text-align:center;margin-top: 120px;font-size: 36px;">Blockchain Validation</h2>
 
-  {% if valid %}
-    <p class="status good">Chain is valid. Length: {{ length }}</p>
-  {% else %}
-    <p class="status bad">Chain is NOT valid! Please investigate.</p>
-  {% endif %}
-</div>
+    <div class="auth-card">
+      {% if valid %}
+        <h3 style="margin-bottom:16px;">Chain Status</h3>
+        <p class="status good" style="font-size:18px; font-weight:600; margin-bottom:8px;">Chain is valid</p>
+        <p style="font-size:16px;">Length: {{ length }}</p>
+      {% else %}
+        <h3 style="margin-bottom:16px;">Chain Status</h3>
+        <p class="status bad" style="font-size:18px; font-weight:600; margin-bottom:8px; color:#b71c1c;">Chain is NOT valid!</p>
+        <p style="font-size:16px;">Please investigate.</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
 {% endblock %}

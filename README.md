@@ -1,4 +1,4 @@
-# Food Supply Blockchain (Trova SC)
+# Food Supply Blockchain (SuppliQ)
 
 ## Setup
 1. Create virtual env and install:

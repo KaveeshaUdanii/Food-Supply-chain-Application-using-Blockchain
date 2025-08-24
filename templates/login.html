@@ -1,26 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="card auth-card">
-  <h2>Login</h2>
-  <form method="post" class="form-horizontal">
+<div class="login-auth-container">
+  <div class="auth-card">
+    <h2>Login</h2>
+    <form method="post" class="form-horizontal">
 
-    <!-- Username -->
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input id="username" name="username" type="text" placeholder="Enter your username" required>
-    </div>
+      <!-- Username -->
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" placeholder="Enter your username" required>
+      </div>
 
-    <!-- Password -->
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" placeholder="Enter your password" required>
-    </div>
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Enter your password" required>
+      </div>
 
-    <!-- Actions -->
-    <div class="form-actions">
-      <button class="btn" type="submit">Login</button>
-    </div>
+      <!-- Actions -->
+      <div class="form-actions">
+        <button class="btn" type="submit">Login</button>
+      </div>
 
-  </form>
+    </form>
+  </div>
 </div>
 {% endblock %}

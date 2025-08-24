@@ -281,14 +281,28 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 0 12px 36px rgba(0,0,0,0.08);
   height: 420px;
 }
-
-/* Footer */
+/* ================= Glossy Footer ================= */
 .footer {
+  position: relative;
   text-align: center;
   padding: 28px;
   font-size: 14px;
-  color: #555;
-  opacity: 0.85;
+  color: #016A70; /* primary color */
+  background: rgba(255, 255, 255, 0.25); /* semi-transparent */
+  backdrop-filter: blur(16px); /* glass effect */
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px 16px 0 0; /* rounded top corners */
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+  opacity: 0.95;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect to make it slightly interactive */
+.footer:hover {
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 -6px 16px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
 }
 
 /* Smooth animations */
@@ -757,5 +771,141 @@ input:focus, textarea:focus, select:focus {
   .validation-page h2 {
     font-size: 28px;
     margin-bottom: 28px;
+  }
+}
+
+
+
+/*-----------------------------------------------------------------------------*/
+
+/* ================= Page Background ================= */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: url('/static/images/bc2.jpg') no-repeat center center/cover; /* set your background image */
+  position: relative;
+}
+
+/* Optional overlay for better contrast */
+.auth-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px);
+  z-index: 0;
+}
+
+/* ================= Glass Form ================= */
+.auth-card {
+  position: relative;
+  z-index: 1; /* above overlay */
+  width: 100%;
+  max-width: 480px;
+  padding: 36px 32px;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+.auth-card h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 32px;
+  color: #016A70;
+}
+
+/* ================= Form Groups ================= */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #D2DE32; /* subtle accent for labels */
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(12px);
+  font-size: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #016A70;
+  box-shadow: 0 0 0 2px rgba(1,106,112,0.4);
+}
+
+/* ================= Buttons ================= */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.btn {
+  padding: 12px 28px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  background: rgba(1,106,112,0.85);
+  text-decoration: none;
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.12),
+              -4px -4px 12px rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: rgba(162,197,121,0.85);
+  color: #016A70;
+  transform: translateY(-2px);
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 600px) {
+  .auth-card {
+    padding: 28px 24px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 12px 14px;
+  }
+
+  .btn {
+    padding: 10px 20px;
   }
 }

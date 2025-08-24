@@ -161,5 +161,27 @@
     "previous_hash": "000b09c09c09b21fdc645e10014d9c3a03b6ff95f20843da9d2d8756e50e80a0",
     "nonce": 1472,
     "hash": "0000a0eb37f5b423764dda12a1f064195636ba24dc334faba2c2bab510540ac7"
+  },
+  {
+    "index": 8,
+    "timestamp": 1756005481.966734,
+    "transactions": [
+      {
+        "type": "create",
+        "batch_id": "1bd821a5",
+        "product_name": "Cake ",
+        "origin": "Dairy factory",
+        "owner": "Famer2",
+        "timestamp": 1755985681.966717,
+        "metadata": {
+          "temperature": 25.0,
+          "humidity": 24.0,
+          "notes": "no"
+        }
+      }
+    ],
+    "previous_hash": "0000a0eb37f5b423764dda12a1f064195636ba24dc334faba2c2bab510540ac7",
+    "nonce": 747,
+    "hash": "0000d35f9abc5ab03906218dcd9b074c794cebae57d25f242c3d3ac7e70481d2"
   }
 ]

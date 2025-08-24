@@ -1,14 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="card auth-card">
-    <h2>Login</h2>
-    <form method="post">
-      <label>Username<input name="username" required></label>
-      <label>Password<input name="password" type="password" required></label>
-      <div class="actions">
-        <button class="btn" type="submit">Login</button>
-        <a href="{{ url_for('signup') }}" class="link">Create account</a>
-      </div>
-    </form>
-  </div>
+<div class="card auth-card">
+  <h2>Login</h2>
+  <form method="post" class="form-horizontal">
+
+    <!-- Username -->
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" placeholder="Enter your username" required>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" placeholder="Enter your password" required>
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button class="btn" type="submit">Login</button>
+    </div>
+
+  </form>
+</div>
 {% endblock %}

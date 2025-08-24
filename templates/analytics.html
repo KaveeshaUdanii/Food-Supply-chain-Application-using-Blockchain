@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div class="container">
+    <h2>Analytics & Stats</h2>
+    <div class="grid" style="margin-top:24px;">
+      <div class="card">
+        <h3>Total Products</h3>
+        <p>{{ total_products }}</p>
+      </div>
+      <div class="card">
+        <h3>Your Products</h3>
+        <p>{{ user_products }}</p>
+      </div>
+      <div class="card">
+        <h3>Temperature Violations</h3>
+        <p>{{ temp_violations }}</p>
+      </div>
+      <div class="card">
+        <h3>Humidity Violations</h3>
+        <p>{{ humidity_violations }}</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:24px;">
+      <h3>Products by Owner</h3>
+      <div id="bar-chart"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Plotly JS -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    var barData = JSON.parse('{{ bar_json | tojson | safe }}');
+    Plotly.newPlot('bar-chart', barData, {margin: {t:30}});
+</script>
+{% endblock %}

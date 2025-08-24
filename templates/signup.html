@@ -3,20 +3,29 @@
   <div class="card auth-card">
     <h2>Signup</h2>
     <form method="post">
-      <label>Username<input name="username" required></label>
-      <label>Password<input name="password" type="password" required></label>
-      <input type="email" name="email" placeholder="Email" required>
-      <label>Role
-        <select name="role">
-          <option value="farmer">Farmer</option>
-          <option value="distributor">Distributor</option>
-          <option value="retailer">Retailer</option>
-          <option value="admin">Admin</option>
-        </select>
-      </label>
+      <div class="form-group">
+        <label>Username<input name="username" required></label>
+      </div>
+      <div class="form-group">
+        <label>Password<input name="password" type="password" required></label>
+      </div>
+      <div class="form-group">
+        <label>Email<input type="email" name="email" placeholder="Email" required></label>
+      </div>
+      <div class="form-group">
+        <label>Role
+          <select name="role">
+            <option value="farmer">Farmer</option>
+            <option value="distributor">Distributor</option>
+            <option value="retailer">Retailer</option>
+            <option value="admin">Admin</option>
+          </select>
+        </label>
+      </div>
       <div class="actions">
         <button class="btn" type="submit">Create account</button>
       </div>
     </form>
   </div>
 {% endblock %}
+ 

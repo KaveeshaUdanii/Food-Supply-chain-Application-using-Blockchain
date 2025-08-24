@@ -19,6 +19,11 @@ import pandas as pd
 import plotly.express as px
 import json
 
+import plotly
+import plotly.graph_objs as go
+
+
+
 
 BASE_DIR = Path(__file__).parent.resolve()
 DB_PATH = BASE_DIR / "app.db"
@@ -215,6 +220,42 @@ def create_app():
         history = blockchain.get_product_history(batch_id)
         return render_template("history.html", history=history, batch_id=batch_id)
 
+
+    #---visualiza Analytics 
+    @app.route("/analytics")
+    @login_required
+    def analytics():
+        # Total products in system
+        total_products = Product.query.count()
+
+        # Products owned by current user
+        user_products = Product.query.filter_by(owner_id=current_user.id).count()
+
+        # Quality violations (example thresholds)
+        all_products = Product.query.all()
+        temp_violations = sum(1 for p in all_products if json.loads(p.product_metadata).get('temperature', 0) > 30)
+        humidity_violations = sum(1 for p in all_products if json.loads(p.product_metadata).get('humidity', 0) > 70)
+
+        # Products per owner for bar chart
+        users = User.query.all()
+        owners = [u.username for u in users]
+        product_counts = [Product.query.filter_by(owner_id=u.id).count() for u in users]
+
+        # Convert to JSON for Plotly
+        bar = go.Bar(x=owners, y=product_counts, marker_color='#016A70')
+        bar_json = json.dumps([bar], cls=plotly.utils.PlotlyJSONEncoder)
+
+        return render_template(
+            "analytics.html",
+            total_products=total_products,
+            user_products=user_products,
+            temp_violations=temp_violations,
+            humidity_violations=humidity_violations,
+            bar_json=bar_json
+        )
+
+
+    
 
     # --- Validate chain ---
     @app.route("/chain/validate")

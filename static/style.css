@@ -1,4 +1,4 @@
-/* static/style.css */
+/* static/style.css
 :root{
   --primary:#016A70;
   --accent:#D2DE32;
@@ -67,3 +67,403 @@ textarea{ min-height:100px; resize:vertical; }
 
 .good{ color:green; font-weight:700; }
 .bad{ color:red; font-weight:700; }
+
+#bar-chart {
+    width: 100%;
+    height: 400px;
+}
+ */
+
+
+ /* static/style.css - Premium iOS-inspired UI with advanced buttons */
+
+/* Root Variables */
+:root {
+  --primary: #016A70;
+  --secondary: #D2DE32;
+  --soft: #A2C579;
+  --bg-light: #f9f9f9;
+  --bg-dark: rgba(20, 20, 30, 0.9);
+  --glass: rgba(255, 255, 255, 0.1);
+  --blur: 12px;
+  --font: 'Poppins', sans-serif;
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+}
+
+body {
+  font-family: var(--font);
+  margin: 0;
+  background: linear-gradient(180deg, #e8f0f2, #ffffff);
+  color: #111;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Top Navigation - Glassmorphic */
+.topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 28px;
+  background: var(--glass);
+  backdrop-filter: blur(var(--blur));
+  border-radius: 16px;
+  margin: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+.topnav .brand a {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 24px;
+  text-decoration: none;
+}
+.nav-links a {
+  color: var(--primary);
+  margin-left: 16px;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 12px;
+  transition: background 0.3s;
+}
+.nav-links a:hover {
+  background: rgba(1, 106, 112, 0.15);
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #016a70, #a2c579);
+  color: white;
+  padding: 48px;
+  border-radius: 24px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+.hero h1 {
+  font-size: 36px;
+  font-weight: 600;
+}
+.hero p {
+  font-size: 18px;
+  opacity: 0.85;
+}
+
+/* Grid Layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 24px 0;
+}
+
+/* Glassmorphic Cards */
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+}
+
+/* Buttons - Neumorphic Premium */
+.btn {
+  display: inline-block;
+  background: #ffffff;
+  color: var(--primary);
+  padding: 12px 22px;
+  border-radius: 16px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  box-shadow: 6px 6px 16px rgba(0,0,0,0.12),
+              -6px -6px 16px rgba(255,255,255,0.7);
+  transition: all 0.3s ease;
+}
+.btn:hover {
+  box-shadow: inset 4px 4px 12px rgba(0,0,0,0.12),
+              inset -4px -4px 12px rgba(255,255,255,0.7);
+  transform: translateY(-2px);
+}
+.btn.outline {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.btn.outline:hover {
+  background: var(--primary);
+  color: var(--bg-light);
+}
+
+/* Forms - Glass Inputs */
+.auth-card {
+  max-width: 480px;
+  margin: 60px auto;
+  padding: 32px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+}
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: var(--primary);
+}
+input, textarea, select {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 16px;
+  padding: 14px;
+  color: #111;
+  font-size: 15px;
+  backdrop-filter: blur(12px);
+  box-shadow: inset 4px 4px 12px rgba(0,0,0,0.1),
+              inset -4px -4px 12px rgba(255,255,255,0.7);
+  transition: all 0.3s ease;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* Tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+.table th, .table td {
+  padding: 12px;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Flash Messages */
+.flash-success {
+  background: #e6f9f8;
+  padding: 10px 16px;
+  border-left: 4px solid var(--soft);
+  margin-bottom: 12px;
+  border-radius: 12px;
+}
+.flash-danger {
+  background: #ffefef;
+  padding: 10px 16px;
+  border-left: 4px solid #e64a4a;
+  margin-bottom: 12px;
+  border-radius: 12px;
+}
+
+/* Status labels */
+.good { color: green; font-weight: 700; }
+.bad { color: red; font-weight: 700; }
+
+/* Plotly Chart Card */
+#bar-chart {
+  background: rgba(255,255,255,0.05);
+  border-radius: 24px;
+  padding: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.08);
+  height: 420px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 28px;
+  font-size: 14px;
+  color: #555;
+  opacity: 0.85;
+}
+
+/* Smooth animations */
+* { transition: all 0.25s ease-in-out; }
+
+
+.link-one{
+  text-decoration: none;
+  color:#D2DE32;
+} 
+
+.tab-space {
+  margin-left: 40px; /* adjust for tab width */
+}
+
+/* Container centers the form */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 20px;
+  background: linear-gradient(180deg, #e8f0f2, #ffffff);
+}
+
+/* Card Styling - Glassmorphic */
+.auth-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 36px 32px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Form Heading */
+.auth-card h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 32px;
+  color: var(--primary);
+}
+
+/* Horizontal Form Groups */
+.form-horizontal .form-group {
+  display: flex;
+  align-items: flex-start; 
+  margin-bottom: 20px;
+}
+
+/* Labels */
+.form-horizontal .form-group label {
+  width: 130px;          /* Fixed label width */
+  margin-right: 16px;
+  font-weight: 600;
+  color: var(--primary);
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Inputs */
+.form-horizontal .form-group input {
+  flex: 1;               /* Fill remaining width */
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: none;
+  font-size: 15px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  box-shadow: inset 4px 4px 12px rgba(0,0,0,0.1),
+              inset -4px -4px 12px rgba(255,255,255,0.7);
+  transition: all 0.3s ease;
+}
+
+.form-horizontal .form-group input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* Action Buttons */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* Buttons - Neumorphic */
+.btn {
+  padding: 12px 24px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  color: var(--primary);
+  background: #ffffff;
+  text-decoration: none;
+  box-shadow: 6px 6px 16px rgba(0,0,0,0.12),
+              -6px -6px 16px rgba(255,255,255,0.7);
+  transition: all 0.3s ease;
+}
+.btn:hover {
+  box-shadow: inset 4px 4px 12px rgba(0,0,0,0.12),
+              inset -4px -4px 12px rgba(255,255,255,0.7);
+  transform: translateY(-2px);
+}
+
+/* Outline Button */
+.btn.outline {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.btn.outline:hover {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .form-horizontal .form-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-horizontal .form-group label {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 6px;
+  }
+}
+ 
+
+.auth-card {
+    width: 100%;
+    max-width: 450px;
+    padding: 40px 36px;
+    border-radius: 20px;
+    background: #f9fafa;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    margin-bottom: 8px;  /* More space between label and input */
+    font-weight: 600;
+    color: #016A70;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 14px 16px;  /* Slightly bigger input height */
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
